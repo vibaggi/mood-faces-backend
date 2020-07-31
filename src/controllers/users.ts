@@ -73,6 +73,7 @@ function login( req: Request, res: Response, next: NextFunction ) {
 }
 
 function authentication( req: Request, res: Response, next: NextFunction ) {
+    console.log("TESTE");
     if (req.headers.token == undefined) res.status(401).send("TOKEN NÃO INFORMADO")
     validateToken((req.headers.token || '').toString()).then(resp => {
         next()
