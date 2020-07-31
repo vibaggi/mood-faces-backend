@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import healthRouter from './routes/health';
-import samplesRouter from './routes/samples';
+import usersRoute from './routes/users';
 
 import errorHandler from './lib/handlers/error_handling';
 import notFoundHandler from './lib/handlers/not_found';
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(helmet());
 
 app.use(healthRouter);
-// app.use('/samples', samplesRouter);
+app.use('/users', usersRoute);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
