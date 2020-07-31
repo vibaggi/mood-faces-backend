@@ -44,17 +44,20 @@ function createUser( req: Request, res: Response, next: NextFunction ) {
 }
 
 function login( req: Request, res: Response, next: NextFunction ) {
+    const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
+    const [username, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+
     MongoClient.connect(NOSQL_URL, function(err: string, client: any){
         var db = client.db(NOSQL_DATABASE);
         const userCollection = db.collection("users")
 
-        userCollection.findOne({"login": req.body.username}).then((usuario: any)=>{
+        userCollection.findOne({"login": username}).then((usuario: any)=>{
 
-            if(criptoHash.verify(req.body.password, usuario.password)){
+            if(criptoHash.verify(password, usuario.password)){
                 var token = randtoken.generate(16)
                 //salvando valores num Map
                 tokensMap.set(token, {
-                    username: req.body.username, 
+                    username: username, 
                     generateDate: Date.now() 
                 })
                 res.send({token, apelido:usuario.apelido})
