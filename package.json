@@ -1,0 +1,51 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon",
+    "prebuild": "rm -rf dist",
+    "build": "tsc -p .",
+    "build:watch": "tsc -w",
+    "postbuild": "cp ./src/config/*.json dist/config ",
+    "prestart": "npm run build",
+    "start": "node -r dotenv/config ./dist/index.js dotenv_config_path=prod.env",
+    "test": "mocha -r ts-node/register -r dotenv/config dotenv_config_path=dev.env ./test/**/*ts --exit"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.3",
+    "@types/hapi__joi": "^16.0.12",
+    "@types/helmet": "^0.0.45",
+    "@types/jsonwebtoken": "^8.3.8",
+    "@types/mocha": "^7.0.2",
+    "@types/multer": "^1.4.2",
+    "@types/node": "^13.9.1",
+    "@types/sequelize": "^4.28.8",
+    "@types/supertest": "^2.0.8",
+    "@types/uuid": "^7.0.2",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "mocha": "^7.1.1",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fabric-ca-client": "^1.4.8",
+    "fabric-network": "^1.4.8",
+    "helmet": "^3.21.3",
+    "ibm-cos-sdk": "^1.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "pg": "^7.18.2",
+    "sequelize": "^5.21.5",
+    "uuid": "^7.0.2"
+  }
+}
