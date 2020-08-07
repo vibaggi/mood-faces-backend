@@ -1,0 +1,23 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const helmet_1 = __importDefault(require("helmet"));
+const health_1 = __importDefault(require("./routes/health"));
+const users_1 = __importDefault(require("./routes/users"));
+const teams_1 = __importDefault(require("./routes/teams"));
+const error_handling_1 = __importDefault(require("./lib/handlers/error_handling"));
+const not_found_1 = __importDefault(require("./lib/handlers/not_found"));
+const app = express_1.default();
+app.use(express_1.default.json());
+app.use(cors_1.default());
+app.use(helmet_1.default());
+app.use(health_1.default);
+app.use(users_1.default);
+app.use('/teams', teams_1.default);
+app.use(not_found_1.default);
+app.use(error_handling_1.default);
+exports.default = app;
