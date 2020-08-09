@@ -46,11 +46,11 @@ function createUser( req: Request, res: Response, next: NextFunction ) {
 function login( req: Request, res: Response, next: NextFunction ) {
     const b64auth = (req.headers.authorization || '').split(' ')[1] || ''
     const [username, password] = Buffer.from(b64auth, 'base64').toString().split(':')
+    console.log(username, password);
 
     MongoClient.connect(NOSQL_URL, function(err: string, client: any){
         var db = client.db(NOSQL_DATABASE);
         const userCollection = db.collection("users")
-
         userCollection.findOne({"login": username}).then((usuario: any)=>{
 
             if(criptoHash.verify(password, usuario.password)){
@@ -95,10 +95,30 @@ function validateToken(token: string): Promise<boolean> {
     })
 }
 
+function listarUsuarios(req: Request, res: Response, next: NextFunction){
+    let texto = req.params.texto
+
+    console.log("listando: ", texto);
+
+    MongoClient.connect(NOSQL_URL, async function (err: any, client: any) {
+        if(err) return res.status(500).send(err)
+        var db = client.db(NOSQL_DATABASE);
+
+        let usuarios = await db.collection("users").find({
+           
+            apelido: { $regex: texto } 
+            
+        }).project({ apelido: 1 }).toArray()
+        
+        return res.status(200).send(usuarios)
+    })
+}
+
 export default {
     createUser,
     login,
-    authentication
+    authentication,
+    listarUsuarios
 };
 
 
