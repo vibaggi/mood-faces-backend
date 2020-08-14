@@ -9,5 +9,6 @@ const users_1 = __importDefault(require("../controllers/users"));
 const router = express_1.Router();
 router.post('/create', users_1.default.createUser);
 router.get('/login', users_1.default.login);
-router.use(users_1.default.authentication);
+// router.use(controller.authentication);
+router.get('/users/listar/:texto', users_1.default.listarUsuarios);
 exports.default = router;

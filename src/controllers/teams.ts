@@ -27,7 +27,7 @@ function criarEquipe(req: Request, res: Response, next: NextFunction ){
     MongoClient.connect(NOSQL_URL, function (err: any, client: any) {
         var db = client.db(NOSQL_DATABASE);
 
-        db.collection("teams").inserOne(equipe, function(err:any, result:any){
+        db.collection("teams").insertOne(equipe, function(err:any, result:any){
             if(err) return res.status(500).send("ERRO INTERNO - tente novamente mais tarde")
             res.status(200).send({message: "successo!"})
             client.close();

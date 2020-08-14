@@ -105,10 +105,10 @@ function listarUsuarios(req: Request, res: Response, next: NextFunction){
         var db = client.db(NOSQL_DATABASE);
 
         let usuarios = await db.collection("users").find({
-           
+            
             apelido: { $regex: texto } 
             
-        }).project({ apelido: 1 }).toArray()
+        }).project({ apelido: 1, email: 1 }).toArray()
         
         return res.status(200).send(usuarios)
     })
