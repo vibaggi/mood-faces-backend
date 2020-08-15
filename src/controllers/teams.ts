@@ -22,6 +22,21 @@ function listarEquipes(req: Request, res: Response, next: NextFunction ){
     })
 }
 
+function listarEquipesPorUsuario(req: Request, res: Response, next: NextFunction ){
+    let login = req.params.login
+    console.log(login);
+    MongoClient.connect(NOSQL_URL, async function (err: any, client: any) {
+        if(err) return res.status(500).send(err)
+        var db = client.db(NOSQL_DATABASE);
+
+        let equipes = await db.collection("teams").find({
+            usuarios: { $elemMatch: { $regex: login } }
+        }).toArray()
+        
+        return res.status(200).send(equipes)
+    })
+}
+
 function criarEquipe(req: Request, res: Response, next: NextFunction ){
     let equipe = req.body.equipe
     MongoClient.connect(NOSQL_URL, function (err: any, client: any) {
@@ -39,6 +54,7 @@ function criarEquipe(req: Request, res: Response, next: NextFunction ){
 export default {
     test,
     listarEquipes,
-    criarEquipe
+    criarEquipe,
+    listarEquipesPorUsuario
 };
 
