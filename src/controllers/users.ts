@@ -60,7 +60,7 @@ function login( req: Request, res: Response, next: NextFunction ) {
                     username: username, 
                     generateDate: Date.now() 
                 })
-                res.send({token, apelido:usuario.apelido})
+                res.send({token, apelido:usuario.apelido, login: usuario.login})
             } else {
                 res.status(401).send('usuário ou senha incorretos')
             }
@@ -108,7 +108,7 @@ function listarUsuarios(req: Request, res: Response, next: NextFunction){
             
             apelido: { $regex: texto } 
             
-        }).project({ apelido: 1, email: 1 }).toArray()
+        }).project({ apelido: 1, email: 1, login: 1 }).toArray()
         
         return res.status(200).send(usuarios)
     })
